@@ -26,7 +26,7 @@ def add_user(id,pwd):
 		cursor.execute(sql, (user, pwd))
 		#提交到数据库执行
 		db.commit()
-		#print("用户已导入")
+		print("用户"+user+"已注册！")
 	except:
 		db.rollback()
 		#print("未插入数据！")
@@ -56,9 +56,9 @@ def delete_user(id):
 	#执行sql语句
 		cursor.execute(sql_emotion, (id))
 		#提交到数据库执行
-		#print("用户表情数据已删除")
+		print("用户"+id+"表情数据已删除")
 		cursor.execute(sql_info, (id))
-		#print("用户基本数据已删除")
+		print("用户"+id+"基本数据已删除")
 		db.commit()
 	except:
 		db.rollback()
@@ -118,10 +118,11 @@ def day_analyse(user, date):
 		day_result = json.dumps(day_result, indent=4)
 		with open(str(user) + '_day.json', 'w') as f:
 			f.write(day_result)
+		print(str(user) + '_day.json'+"结果已生成")
 	except:
 		db.rollback()
 		#如果发生错误则回滚
-		#print("查询错误！")
+		print("查询错误！")
 
 	db.close()
 	#关闭数据库连接
@@ -183,11 +184,22 @@ def month_analyse(user):
 		month_result = json.dumps(month_result, indent=4)
 		with open(str(user) + '_month.json', 'w') as f:
 			f.write(month_result)
+		print(str(user) + '_month.json'+"结果已生成")
 	except:
 		db.rollback()
 		#如果发生错误则回滚
-		#print("查询错误！")
+		print("查询错误！")
 
 	db.close()
 	#关闭数据库连接
 
+if __name__ == '__main__':
+	# add_user('a','123');
+	# add_user('b','234');
+	# add_user('c','345');
+	# add_user('d','567');
+	delete_user('a');
+	delete_user('b');
+	delete_user('c');
+	delete_user('d');
+	# month_analyse('c');
