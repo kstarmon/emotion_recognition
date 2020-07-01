@@ -1,7 +1,7 @@
 emotion_recognition:将参考图片对待识别图片进行人脸识别，之后进行表情识别，并将结果写入数据库
-表情识别参考https://github.com/luanshiyinyang/ExpressionRecognition。有问题联系k_starmon@bupt.edu,cn
+表情识别参考https://github.com/luanshiyinyang/ExpressionRecognition。有问题联系k_starmon@bupt.edu.cn
 write_mysql：读写数据库
-detect_recognition.py：可调用摄像头
+detect_recognition.py：可调用摄像头识别表情
 
 可识别表情:"anger",
 	"disgust",
