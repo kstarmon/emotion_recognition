@@ -17,7 +17,7 @@ python版本：3.6
 	dlib(face_recognition依赖)，tensorflow(keras依赖)
 使用注意：请先保存参考的照片在目录"./usr_face/",命名为用户名，格式为".jpg"。待识别图片在“./faces/”文件夹中，命名为年_月_日_时_随机数.jpg。
 
-cnn3_best_weight.h5：cnn的最佳权值
+cnn3_best_weight.h5：cnn的最佳权值。链接: https://pan.baidu.com/s/16B9KRq3YbHCL5vf3qAUueg 提取码: 6yzu
 
 API：month_analyse(user_name)
 function：请求返回从今天起30天的心情
