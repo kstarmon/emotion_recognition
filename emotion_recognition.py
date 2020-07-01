@@ -5,8 +5,9 @@
 	upgrade: k-starmon
 	datetime: 2020/1/23
 	update: 2020/2/12 增添数据库写入
-	last_update: 2020/2/21 增添人脸识别
-	function：表情识别部分的所有 希望每日执行一次，如6:00
+	update: 2020/2/21 增添人脸识别
+	last_updata: 2020/4/12 增添识别完之后删除图片，节约空间
+	function：表情识别部分的所有 希望每日执行一次，如6:00,未实现
 """
 
 def recognition(path):
@@ -35,14 +36,14 @@ def recognition(path):
 			know_face.append(user_face_encoding)
 			#建在列表里，后面比较时维度相同
 		except IndexError:
-			#print("固有图片加载失败!")
+			print("固有图片加载失败!")
 			quit()
 
 	unknown_face = face_recognition.load_image_file(path)
 	try:
 		unknown_face_encoding = face_recognition.face_encodings(unknown_face)[0]
 	except IndexError:
-		#print("待识别图片加载失败!")
+		print("待识别图片加载失败!")
 		quit()
 
 	distance = face_recognition.face_distance(know_face, unknown_face_encoding)
@@ -60,7 +61,7 @@ def recognition(path):
 	else:
 		os.remove(path)
 		return "False"
-		#print("不是用户图片")
+		print("不是用户图片")
 		#若不是对象的图片，则删除保存
 
 
@@ -73,6 +74,8 @@ def face_detect(img_path):
 	import cv2
 
 	face_cascade = cv2.CascadeClassifier('D:\\opencv\\sources\\data\\haarcascades\\haarcascade_frontalface_default.xml')
+	# when in the loacl
+	# face_cascade = cv2.CascadeClassifier('usr/local/lib/python3.6/dist-packages/cv2/datas/haarcascade_frontalface_default.xml')
 	img = cv2.imread(img_path)
 
 	img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -199,14 +202,14 @@ def research_user(user):
 				#将返回的tuple变成列表形式
 		if user in all_user:
 			return True
-			#print("该用户存在")
+			print("该用户存在")
 		else:
 			return False
-			#print("用户不存在！")
+			print("用户不存在！")
 	except:
 		db.rollback()
 		#如果发生错误则回滚
-		#print("未记录任何用户数据！")
+		print("未记录任何用户数据！")
 		return False
 
 def write_emotion(file_name, user_name, emotion):
@@ -240,18 +243,18 @@ def write_emotion(file_name, user_name, emotion):
 		#执行sql语句
 			cursor.execute(sql, (user, date, hour, emotion))
 			#提交到数据库执行
-			#print(str(file_name) + "已导入！")
+			print(str(file_name) + "已导入！")
 			db.commit()
 		except:
 			db.rollback()
-			#print("未插入数据！")
+			print("未插入数据！")
 			#如果发生错误则回滚
 		db.close()
 		#关闭数据库连接
 	else:
-		path = "./user_face/" + str(file_name)
+		path = "./faces/" + str(file_name)
 		os.remove(path)
-		#print("该用户不存在，图片已删除~")
+		print("该用户不存在，图片已删除~")
 
 
 def CNN(input_shape=(48, 48, 1), n_classes=8):
@@ -308,10 +311,10 @@ if __name__ == '__main__':
 	model.load_weights('./cnn3_best_weights.h5')
 	#加载权值
 
-	for root, dirs, files in os.walk(".//user_face"):
+	for root, dirs, files in os.walk(".//faces"):
 	#遍历文件夹中的文件
 		for file_name in files:
-			path = "./user_face/" + str(file_name)
+			path = "./faces/" + str(file_name)
 
 			result = recognition(path)
 			if result != "False":
@@ -319,4 +322,4 @@ if __name__ == '__main__':
 				#表情识别
 				write_emotion(file_name, result, emotion)
 				#写入数据库
-
+				os.remove(path)
