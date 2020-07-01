@@ -1,0 +1,20 @@
+库 win2020
+用户：guest
+权限：select、delect、insert、update
+密码：123456
+表“picture_emotion”
+CREATE TABLE picture_emotion(
+id INT UNSIGNED AUTO_INCREMENT,
+user VARCHAR(20) NOT NULL,
+date DATE NOT NULL,
+hour VARCHAR(2) NOT NULL,
+emotion VARCHAR(10) NOT NULL,
+PRIMARY KEY(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+表：“user_info”
+CREATE TABLE user_info(
+user VARCHAR(20) NOT NULL,
+pwd VARCHAR(20) NOT NULL,
+PRIMARY KEY(user)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
